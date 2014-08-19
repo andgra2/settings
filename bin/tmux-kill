@@ -1,0 +1,3 @@
+tmux -L slave kill-session -t "$1"
+tmux -L master kill-session -t "$1"
+

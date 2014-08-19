@@ -1,0 +1,2 @@
+tmux -L master list-sessions -F "#{session_name}"
+

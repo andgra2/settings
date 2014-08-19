@@ -1,0 +1,6 @@
+tmux -L master -f ~/.tmux.conf.master new-session -s "$1" -n "vim tmux" -d "vim"
+
+tmux -L master split-window -t "$1" -v "tmux -L slave -f ~/.tmux.conf.slave new-session -s '$1' -n 'bash'"
+
+tmux -L master select-pane -t "$1:.-"
+

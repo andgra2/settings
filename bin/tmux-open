@@ -1,0 +1,2 @@
+tmux -L master attach-session
+

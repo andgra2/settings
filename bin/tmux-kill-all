@@ -1,0 +1,3 @@
+tmux -L slave kill-server
+tmux -L master kill-server
+

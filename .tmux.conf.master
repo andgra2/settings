@@ -1,0 +1,28 @@
+source-file ~/.tmux.conf.common
+
+set-option -g history-limit 0
+
+set-option -g status-left-length 50
+set-option -g status-left " #S"
+set-option -g status-right-length 20
+set-option -g status-right "%Y-%m-%d %H:%M:%S "
+set-window-option -g window-status-format ""
+set-window-option -g window-status-current-format ""
+
+set-option -g prefix M-T
+bind-key M-T send-prefix
+
+bind-key -n M-Q detach-client
+bind-key -n M-q choose-session -F "#{session_name}"
+bind-key -n M-e send-keys Escape
+
+bind-key -n M-R select-layout even-vertical \; refresh-client
+
+bind-key -n M-d resize-pane -Z
+bind-key -n M-f select-pane -t :.+
+
+bind-key -n M-Z source-file ~/.tmux.conf.master
+bind-key -n M-X command-prompt
+
+bind-key -t vi-copy y copy-pipe "cat > /tmp/tmux-buffer.txt; (cat /tmp/tmux-buffer.txt; echo ''; echo ''; cat ~/tmux-buffers.txt) > /tmp/tmux-buffers.txt; cp -f /tmp/tmux-buffers.txt ~/tmux-buffers.txt; tmux -L slave load-buffer /tmp/tmux-buffer.txt; tmux -L master delete-buffer"
+

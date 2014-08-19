@@ -1,0 +1,59 @@
+source-file ~/.tmux.conf.common
+
+set-option -g history-limit 100000
+
+set-option -g status-left-length 1
+set-option -g status-left " "
+set-option -g status-right-length 1
+set-option -g status-right " "
+set-window-option -g window-status-format "#[fg=black]#[bg=brightgreen] #{window_index} #{window_name} "
+set-window-option -g window-status-current-format "#[fg=brightgreen]#[bg=black] #{window_index} #{window_name} "
+
+set-option -g prefix M-t
+bind-key M-t send-prefix
+
+bind-key -n M-1 select-window -t :1
+bind-key -n M-2 select-window -t :2
+bind-key -n M-3 select-window -t :3
+bind-key -n M-4 select-window -t :4
+bind-key -n M-5 select-window -t :5
+bind-key -n M-6 select-window -t :6
+bind-key -n M-7 select-window -t :7
+bind-key -n M-8 select-window -t :8
+bind-key -n M-9 select-window -t :9
+bind-key -n M-0 select-window -t :10
+
+bind-key -n M-r select-layout even-horizontal \; refresh-client
+
+bind-key -n M-y kill-pane \; select-layout even-horizontal
+bind-key -n M-u split-window -h \; select-layout even-horizontal
+bind-key -n M-U new-window
+bind-key -n M-i break-pane \; last-window \; select-layout even-horizontal \; last-window
+bind-key -n M-I choose-window -F "#{window_index} #{window_name}" "join-pane -h -t '%1' \; select-layout even-horizontal"
+
+bind-key -n M-a command-prompt -p " Rename window; Window name:" "rename-window '%1'"
+bind-key -n M-D resize-pane -Z
+
+bind-key -n M-g send-keys Escape \; send-keys -l dd \; send-keys C-l \; send-keys -l i \; run-shell "sleep 0.01" \; clear-history
+
+bind-key -n M-h select-window -t :-
+bind-key -n M-H swap-window -t :-
+bind-key -n M-j select-pane -t :.-
+bind-key -n M-J swap-pane -U
+bind-key -n M-k select-pane -t :.+
+bind-key -n M-K swap-pane -D
+bind-key -n M-l select-window -t :+
+bind-key -n M-L swap-window -t :+
+
+bind-key -n M-z source-file ~/.tmux.conf.slave
+bind-key -n M-x command-prompt
+
+bind-key -n M-c copy-mode
+bind-key -n M-v paste-buffer
+bind-key -n M-V choose-buffer -F "#{buffer_name}: #{buffer_sample} (#{buffer_size} bytes)"
+
+bind-key -n M-n capture-pane -S -100000 \; save-buffer ~/tmux-history.txt \; delete-buffer
+bind-key -n M-m command-prompt -p " Save pane history; Filename:" "capture-pane -S -100000 \; save-buffer '%1' \; delete-buffer"
+
+bind-key -t vi-copy y copy-pipe "(cat; echo ''; echo ''; cat ~/tmux-buffers.txt) > /tmp/tmux-buffers.txt; cp -f /tmp/tmux-buffers.txt ~/tmux-buffers.txt"
+
